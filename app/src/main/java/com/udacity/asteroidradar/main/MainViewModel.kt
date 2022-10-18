@@ -1,74 +1,38 @@
 package com.udacity.asteroidradar.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.PictureOfDay
+import com.udacity.asteroidradar.RadarRepository
 import com.udacity.asteroidradar.api.AsteroidApi
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
+import com.udacity.asteroidradar.database.getDatabase
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MainViewModel : ViewModel() {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _asteroids = MutableLiveData<List<Asteroid>>()
-    val asteroids: LiveData<List<Asteroid>>
-        get() = _asteroids
 
-    private val _pictureOfDay = MutableLiveData<PictureOfDay>()
-    val pictureOfDay: LiveData<PictureOfDay>
-        get() = _pictureOfDay
+    private val database = getDatabase(application)
+    private val repository = RadarRepository(database)
+
+    init{
+        viewModelScope.launch {
+            repository.refreshAsteroids()
+            repository.refreshPictureOfDay()
+        }
+    }
+
+    val asteroids: LiveData<List<Asteroid>> = repository.asteroids
+    val pictureOfDay: LiveData<PictureOfDay> = repository.pictureOfDay
 
     private val _navigateToSelectedAsteroid = MutableLiveData<Asteroid>()
     val navigateToSelectedAsteroid: LiveData<Asteroid>
         get() = _navigateToSelectedAsteroid
-
-    init {
-        loadPictureOfDay()
-        loadAsteroids()
-    }
-
-    private fun loadAsteroids() {
-        viewModelScope.launch {
-            try {
-                val start_date = Date(System.currentTimeMillis())
-                val end_date =
-                    Date(System.currentTimeMillis() + Constants.DEFAULT_END_DATE_DAYS * 24 * 60 * 60 * 1000)
-                val start_date_formatted =
-                    SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT).format(start_date)
-                val end_date_formatted =
-                    SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT).format(end_date)
-                _asteroids.value = parseAsteroidsJsonResult(
-                    JSONObject(
-                        AsteroidApi.retrofitService.getAsteroids(
-                            start_date_formatted,
-                            end_date_formatted,
-                            Constants.API_KEY
-
-                        ).string()
-                    )
-                )
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    private fun loadPictureOfDay() {
-        viewModelScope.launch {
-            try {
-                _pictureOfDay.value = AsteroidApi.retrofitService.getPictureOfDay(Constants.API_KEY)
-            } catch (e: Exception) {
-                _pictureOfDay.value = PictureOfDay("", "", "")
-            }
-        }
-    }
 
     fun navigateToSelectedAsteroid(asteroid: Asteroid) {
         _navigateToSelectedAsteroid.value = asteroid
@@ -76,6 +40,14 @@ class MainViewModel : ViewModel() {
     fun displayAsteroidDetailsComplete() {
         _navigateToSelectedAsteroid.value = null
     }
-
+    class Factory(val app: Application) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return MainViewModel(app) as T
+            }
+            throw IllegalArgumentException("Unable to construct viewmodel")
+        }
+    }
 
 }
