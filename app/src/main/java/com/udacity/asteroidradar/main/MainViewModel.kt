@@ -65,4 +65,8 @@ class MainViewModel : ViewModel() {
             }
         }
     }
+
+    fun displayPropertyDetails(asteroid: Asteroid) {
+        TODO("Not yet implemented")
+    }
 }

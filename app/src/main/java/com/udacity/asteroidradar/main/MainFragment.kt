@@ -20,6 +20,10 @@ class MainFragment : Fragment() {
 
         binding.viewModel = viewModel
 
+        binding.asteroidRecycler.adapter = AsteroidAdapter(AsteroidAdapter.OnClickListener {
+            // viewModel.displayPropertyDetails(it)
+        })
+
         setHasOptionsMenu(true)
 
         return binding.root
