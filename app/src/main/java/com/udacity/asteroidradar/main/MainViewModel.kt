@@ -24,6 +24,10 @@ class MainViewModel : ViewModel() {
     val pictureOfDay: LiveData<PictureOfDay>
         get() = _pictureOfDay
 
+    private val _navigateToSelectedAsteroid = MutableLiveData<Asteroid>()
+    val navigateToSelectedAsteroid: LiveData<Asteroid>
+        get() = _navigateToSelectedAsteroid
+
     init {
         loadPictureOfDay()
         loadAsteroids()
@@ -66,7 +70,12 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun displayPropertyDetails(asteroid: Asteroid) {
-        TODO("Not yet implemented")
+    fun navigateToSelectedAsteroid(asteroid: Asteroid) {
+        _navigateToSelectedAsteroid.value = asteroid
     }
+    fun displayAsteroidDetailsComplete() {
+        _navigateToSelectedAsteroid.value = null
+    }
+
+
 }
