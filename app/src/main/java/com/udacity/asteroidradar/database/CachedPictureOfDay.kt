@@ -6,18 +6,19 @@ import com.udacity.asteroidradar.PictureOfDay
 
 @Entity(tableName = "picture_of_day_table")
 data class CachedPictureOfDay(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
+    @PrimaryKey
+    val url: String,
     val mediaType: String,
     val title: String,
-    val url: String
+    val date: String
 )
 
 fun CachedPictureOfDay.asDomainModel(): PictureOfDay {
     return PictureOfDay(
         mediaType = this.mediaType,
         title = this.title,
-        url = this.url
+        url = this.url,
+        date = this.date
     )
 }
 
@@ -25,7 +26,7 @@ fun CachedPictureOfDay.asDomainModel(): PictureOfDay {
 interface PictureOfDayDao {
 
     // get last picture of the day
-    @Query("SELECT * FROM picture_of_day_table ORDER BY id DESC LIMIT 1")
+    @Query("SELECT * FROM picture_of_day_table ORDER BY date DESC LIMIT 1")
     fun getLastPicture(): LiveData<CachedPictureOfDay>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
