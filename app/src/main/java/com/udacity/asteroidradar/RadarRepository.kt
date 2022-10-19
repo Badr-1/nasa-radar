@@ -39,7 +39,7 @@ class RadarRepository(private val database: RadarDatabase) {
                             API_KEY,
                             getTodayDate(),
                             getWeekendDate()
-                        ).toString()
+                        ).string()
                     )
                 )
                 database.asteroidDao.insertAll(*(asteroids.asDatabaseModel()))
