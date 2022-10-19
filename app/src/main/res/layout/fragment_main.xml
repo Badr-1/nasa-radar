@@ -50,7 +50,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             tools:listitem="@layout/asteroid_item"
-            listData="@{viewModel.asteroids}"
+            listData="@{viewModel.filteredAsteroids}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
