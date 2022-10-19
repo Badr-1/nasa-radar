@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar.api
 
+import android.annotation.SuppressLint
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.udacity.asteroidradar.Asteroid
@@ -54,6 +55,7 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
     return asteroidList
 }
 
+@SuppressLint("NewApi", "SimpleDateFormat", "WeekBasedYear")
 private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     val formattedDateList = ArrayList<String>()
 
@@ -66,6 +68,18 @@ private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     }
 
     return formattedDateList
+}
+
+@SuppressLint("NewApi", "SimpleDateFormat", "WeekBasedYear")
+fun getWeekendDate(): String {
+    val calendar = Calendar.getInstance()
+    calendar.add(Calendar.DAY_OF_YEAR, 7)
+    return SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT).format(calendar.time)
+}
+
+@SuppressLint("NewApi", "SimpleDateFormat", "WeekBasedYear")
+fun getTodayDate(): String {
+    return SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT).format(Calendar.getInstance().time)
 }
 
 

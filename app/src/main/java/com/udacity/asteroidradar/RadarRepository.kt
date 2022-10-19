@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.Constants.API_KEY
 import com.udacity.asteroidradar.api.AsteroidApi
+import com.udacity.asteroidradar.api.getTodayDate
+import com.udacity.asteroidradar.api.getWeekendDate
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.database.RadarDatabase
 import com.udacity.asteroidradar.database.asDomainModel
@@ -33,6 +35,7 @@ class RadarRepository(private val database: RadarDatabase) {
         withContext(Dispatchers.IO)
         {
             try {
+                database.asteroidDao.deleteAsteroidsBeforeToday(getTodayDate())
                 val asteroids = parseAsteroidsJsonResult(
                     JSONObject(
                         AsteroidApi.retrofitService.getAsteroids(
@@ -61,15 +64,5 @@ class RadarRepository(private val database: RadarDatabase) {
         }
     }
 
-    @SuppressLint("NewApi", "SimpleDateFormat", "WeekBasedYear")
-    private fun getWeekendDate(): String {
-        val calendar = Calendar.getInstance()
-        calendar.add(Calendar.DAY_OF_YEAR, 7)
-        return SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT).format(calendar.time)
-    }
 
-    @SuppressLint("NewApi", "SimpleDateFormat", "WeekBasedYear")
-    private fun getTodayDate(): String {
-        return SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT).format(Calendar.getInstance().time)
-    }
 }
