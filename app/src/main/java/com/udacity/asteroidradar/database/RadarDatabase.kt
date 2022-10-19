@@ -11,7 +11,7 @@ import androidx.room.RoomDatabase
     version = 1,
     exportSchema = false
 )
-abstract class RadarDatabase() : RoomDatabase() {
+abstract class RadarDatabase : RoomDatabase() {
     abstract val asteroidDao: AsteroidDao
     abstract val pictureOfDayDao: PictureOfDayDao
 }

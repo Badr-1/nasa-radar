@@ -12,9 +12,9 @@ import com.udacity.asteroidradar.databinding.AsteroidItemBinding
 /**
  * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [List]
  * data, including computing diffs between lists.
- * @param onClick a lambda that takes the
+ * @param onClickListener a lambda that takes the
  */
-class AsteroidAdapter(val onClickListener: OnClickListener) :
+class AsteroidAdapter(private val onClickListener: OnClickListener) :
     ListAdapter<Asteroid, AsteroidAdapter.AsteroidViewHolder>(DiffCallback) {
     /**
      * The AsteroidViewHolder constructor takes the binding variable from the associated

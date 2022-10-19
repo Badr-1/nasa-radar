@@ -1,8 +1,6 @@
 package com.udacity.asteroidradar
 
-import android.annotation.SuppressLint
-import android.net.Network
-import android.provider.MediaStore
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.Constants.API_KEY
@@ -14,10 +12,7 @@ import com.udacity.asteroidradar.database.RadarDatabase
 import com.udacity.asteroidradar.database.asDomainModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
 import org.json.JSONObject
-import java.text.SimpleDateFormat
-import java.util.Calendar
 
 class RadarRepository(private val database: RadarDatabase) {
 

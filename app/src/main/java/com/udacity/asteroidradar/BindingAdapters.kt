@@ -24,8 +24,10 @@ fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
 fun bindDetailsStatusImage(imageView: ImageView, isHazardous: Boolean) {
     if (isHazardous) {
         imageView.setImageResource(R.drawable.asteroid_hazardous)
+        imageView.contentDescription = "Hazardous Asteroid"
     } else {
         imageView.setImageResource(R.drawable.asteroid_safe)
+        imageView.contentDescription = "Safe Asteroid"
     }
 }
 
@@ -51,7 +53,7 @@ fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
 fun bindPictureOfDayUrl(imageView: ImageView, pictureOfDay: PictureOfDay?) {
     // using picasso to load the image
     if (pictureOfDay?.mediaType == "image") {
-        Picasso.get().load(pictureOfDay.url).into(imageView);
+        Picasso.get().load(pictureOfDay.url).into(imageView)
         imageView.contentDescription = pictureOfDay.title
     }
 }
@@ -79,10 +81,11 @@ fun bindStatus(progressBar: ProgressBar, status: AsteroidApiStatus?) {
             progressBar.visibility = View.VISIBLE
         }
         AsteroidApiStatus.ERROR -> {
-            Toast.makeText(progressBar.context, "Failed To Retrieve The Data", Toast.LENGTH_SHORT).show()
+            Toast.makeText(progressBar.context, "Failed To Retrieve The Data", Toast.LENGTH_SHORT)
+                .show()
         }
-        AsteroidApiStatus.DONE -> {
-            progressBar.visibility = View.GONE
-        }
+
+        else -> progressBar.visibility = View.GONE
+
     }
 }
