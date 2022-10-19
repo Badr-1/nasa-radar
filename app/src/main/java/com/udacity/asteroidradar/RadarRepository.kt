@@ -35,7 +35,6 @@ class RadarRepository(private val database: RadarDatabase) {
         withContext(Dispatchers.IO)
         {
             try {
-                database.asteroidDao.deleteAsteroidsBeforeToday(getTodayDate())
                 val asteroids = parseAsteroidsJsonResult(
                     JSONObject(
                         AsteroidApi.retrofitService.getAsteroids(
