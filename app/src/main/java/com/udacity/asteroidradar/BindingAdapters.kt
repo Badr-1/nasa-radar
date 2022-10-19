@@ -1,11 +1,15 @@
 package com.udacity.asteroidradar
 
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.main.AsteroidAdapter
+import com.udacity.asteroidradar.main.AsteroidApiStatus
 
 @BindingAdapter("statusIcon")
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
@@ -59,4 +63,26 @@ fun bindPictureOfDayUrl(imageView: ImageView, pictureOfDay: PictureOfDay?) {
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<Asteroid>?) {
     val adapter = recyclerView.adapter as AsteroidAdapter
     adapter.submitList(data)
+}
+
+
+/**
+ * This binding adapter displays the [AsteroidApiStatus] of the network request in an image view.  When
+ * the request is loading, it displays a loading_animation.  If the request has an error, it
+ * displays a broken image to reflect the connection error.  When the request is finished, it
+ * hides the image view.
+ */
+@BindingAdapter("asteroidsApiStatus")
+fun bindStatus(progressBar: ProgressBar, status: AsteroidApiStatus?) {
+    when (status) {
+        AsteroidApiStatus.LOADING -> {
+            progressBar.visibility = View.VISIBLE
+        }
+        AsteroidApiStatus.ERROR -> {
+            Toast.makeText(progressBar.context, "Failed To Retrieve The Data", Toast.LENGTH_SHORT).show()
+        }
+        AsteroidApiStatus.DONE -> {
+            progressBar.visibility = View.GONE
+        }
+    }
 }

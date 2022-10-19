@@ -3,23 +3,20 @@ package com.udacity.asteroidradar.main
 import android.app.Application
 import androidx.lifecycle.*
 import com.udacity.asteroidradar.Asteroid
-import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.PictureOfDay
 import com.udacity.asteroidradar.RadarRepository
-import com.udacity.asteroidradar.api.AsteroidApi
 import com.udacity.asteroidradar.api.getTodayDate
-import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.database.getDatabase
 import kotlinx.coroutines.launch
-import org.json.JSONObject
-import java.text.SimpleDateFormat
-import java.util.*
 
 enum class AsteroidFilter { SHOW_WEEK, SHOW_TODAY, SHOW_SAVED }
+enum class AsteroidApiStatus { LOADING, ERROR, DONE }
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-
+    private val _status = MutableLiveData<AsteroidApiStatus>()
+    val status: LiveData<AsteroidApiStatus>
+        get() = _status
     private val database = getDatabase(application)
     private val repository = RadarRepository(database)
     private val _filter = MutableLiveData<AsteroidFilter>()
@@ -28,13 +25,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         _filter.value = AsteroidFilter.SHOW_SAVED
+        _status.value = AsteroidApiStatus.LOADING
         viewModelScope.launch {
-            repository.refreshAsteroids()
+            try {
+                repository.refreshAsteroids()
+                _status.value = AsteroidApiStatus.DONE
+            }
+            catch (e: Exception) {
+                _status.value = AsteroidApiStatus.ERROR
+            }
             repository.refreshPictureOfDay()
         }
     }
 
-    val asteroids: LiveData<List<Asteroid>> = repository.asteroids
+    private val asteroids: LiveData<List<Asteroid>> = repository.asteroids
     var filteredAsteroids: LiveData<List<Asteroid>> = repository.asteroids
     val pictureOfDay: LiveData<PictureOfDay> = repository.pictureOfDay
 
