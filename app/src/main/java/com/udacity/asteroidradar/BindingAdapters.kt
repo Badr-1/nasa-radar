@@ -24,10 +24,8 @@ fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
 fun bindDetailsStatusImage(imageView: ImageView, isHazardous: Boolean) {
     if (isHazardous) {
         imageView.setImageResource(R.drawable.asteroid_hazardous)
-        imageView.contentDescription = "Hazardous Asteroid"
     } else {
         imageView.setImageResource(R.drawable.asteroid_safe)
-        imageView.contentDescription = "Safe Asteroid"
     }
 }
 
@@ -54,7 +52,6 @@ fun bindPictureOfDayUrl(imageView: ImageView, pictureOfDay: PictureOfDay?) {
     // using picasso to load the image
     if (pictureOfDay?.mediaType == "image") {
         Picasso.get().load(pictureOfDay.url).into(imageView)
-        imageView.contentDescription = pictureOfDay.title
     }
 }
 
