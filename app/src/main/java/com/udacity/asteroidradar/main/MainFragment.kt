@@ -58,6 +58,10 @@ class MainFragment : Fragment() {
                 viewModel.updateFilter(AsteroidFilter.SHOW_TODAY)
                 true
             }
+            R.id.show_saved_menu -> {
+                viewModel.updateFilter(AsteroidFilter.SHOW_SAVED)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
