@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.databinding.AsteroidItemBinding
+import kotlinx.android.synthetic.main.asteroid_item.view.*
 
 
 /**
@@ -65,7 +66,7 @@ class AsteroidAdapter(private val onClickListener: OnClickListener) :
      */
     override fun onBindViewHolder(holder: AsteroidViewHolder, position: Int) {
         val asteroid = getItem(position)
-        holder.itemView.setOnClickListener {
+        holder.itemView.cardView.setOnClickListener {
             onClickListener.onClick(asteroid)
         }
         holder.bind(asteroid)

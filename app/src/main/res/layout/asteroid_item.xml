@@ -10,48 +10,58 @@
             type="com.udacity.asteroidradar.Asteroid" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_background"
-        android:padding="8dp">
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/app_background"
+        android:focusable="true">
 
-        <TextView
-            android:id="@+id/asteroid_code_name"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{asteroid.codename}"
-            android:textColor="@color/default_text_color"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="68347 (2001 KB67)" />
+            android:padding="8dp">
 
-        <TextView
-            android:id="@+id/asteroid_close_approach_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@{asteroid.closeApproachDate}"
-            android:textColor="@color/text_grey"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/asteroid_code_name"
-            tools:text="2020-02-08" />
+            <TextView
+                android:id="@+id/asteroid_code_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{asteroid.codename}"
+                android:textColor="@color/default_text_color"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="68347 (2001 KB67)" />
 
-        <ImageView
-            android:id="@+id/asteroid_potentially_hazardous"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:contentDescription="@{asteroid.isPotentiallyHazardous ? @string/potentially_hazardous_asteroid_image : @string/not_hazardous_asteroid_image}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:statusIcon="@{asteroid.isPotentiallyHazardous}"
-            tools:srcCompat="@drawable/ic_status_potentially_hazardous" />
+            <TextView
+                android:id="@+id/asteroid_close_approach_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{asteroid.closeApproachDate}"
+                android:textColor="@color/text_grey"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/asteroid_code_name"
+                tools:text="2020-02-08" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/asteroid_potentially_hazardous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@{asteroid.isPotentiallyHazardous ? @string/potentially_hazardous_asteroid_image : @string/not_hazardous_asteroid_image}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:statusIcon="@{asteroid.isPotentiallyHazardous}"
+                tools:srcCompat="@drawable/ic_status_potentially_hazardous" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
 </layout>
